@@ -21,4 +21,15 @@ public class Index {
     private BigDecimal price;
     private BigDecimal change;
     private BigDecimal changePercent;
+
+    public Index() {
+    }
+
+    public Index(String name, String symbol, BigDecimal price, BigDecimal change, BigDecimal changePercent) {
+        this.name = name;
+        this.symbol = symbol;
+        this.price = price;
+        this.change = change;
+        this.changePercent = changePercent;
+    }
 }
