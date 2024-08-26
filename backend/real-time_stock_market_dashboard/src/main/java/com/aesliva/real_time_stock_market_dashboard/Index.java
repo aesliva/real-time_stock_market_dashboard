@@ -1,13 +1,11 @@
 package com.aesliva.real_time_stock_market_dashboard;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 // JPA entity for stock index
 @Entity
+@Table(name = "stock_index")
 public class Index {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +17,9 @@ public class Index {
     // Use BigDecimal for price, change, and changePercent to handle decimal values
     // accurately. Important for financial calculations.
     private BigDecimal price;
+    @Column(name = "price_change")
     private BigDecimal change;
+    @Column(name = "price_change_percent")
     private BigDecimal changePercent;
 
     public Index() {
