@@ -16,7 +16,7 @@ public class IndexService {
     @Autowired
     private AlphaVantageService alphaVantageService;
 
-    private final List<String> indexSymbols = Arrays.asList("IBM");
+    private final List<String> indexSymbols = Arrays.asList("SPY", "QQQ", "VTI", "IWM", "VIG", "GLD", "AGG");
 
     public List<Index> getAllIndexes() {
         return indexRepository.findAll();
