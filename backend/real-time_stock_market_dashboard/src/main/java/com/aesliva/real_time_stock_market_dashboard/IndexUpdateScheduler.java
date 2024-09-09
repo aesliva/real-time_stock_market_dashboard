@@ -10,7 +10,7 @@ public class IndexUpdateScheduler {
     @Autowired
     private IndexService indexService;
 
-    @Scheduled(fixedRate = 300000) // Update every 5 minutes
+    @Scheduled(fixedRate = 3600000) // Update every hour
     public void updateIndexes() {
         indexService.updateIndexes();
     }
