@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public class AlphaVantageService {
 
     // TODO: Move to application.properties
-    @Value("EL3L7DKLNK1TJIM8")
+    @Value("YBBIA5PYIDX271M7")
     private String apiKey;
 
     // TODO: Move to application.properties
