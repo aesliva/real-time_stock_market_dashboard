@@ -35,7 +35,6 @@ public class AlphaVantageService {
             JsonNode globalQuote = root.get("Global Quote");
             return new Index(
                     symbol,
-                    globalQuote.get("01. symbol").asText(),
                     new BigDecimal(globalQuote.get("05. price").asText()),
                     new BigDecimal(globalQuote.get("09. change").asText()),
                     new BigDecimal(globalQuote.get("10. change percent").asText().replace("%", "")));

@@ -11,7 +11,6 @@ public class Index {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
     private String symbol;
     private BigDecimal price;
 
@@ -24,8 +23,7 @@ public class Index {
     public Index() {
     }
 
-    public Index(String name, String symbol, BigDecimal price, BigDecimal change, BigDecimal changePercent) {
-        this.name = name;
+    public Index(String symbol, BigDecimal price, BigDecimal change, BigDecimal changePercent) {
         this.symbol = symbol;
         this.price = price;
         this.change = change;
@@ -38,14 +36,6 @@ public class Index {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getSymbol() {
