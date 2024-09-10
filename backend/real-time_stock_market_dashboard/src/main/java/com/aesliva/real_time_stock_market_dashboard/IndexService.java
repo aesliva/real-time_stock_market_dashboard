@@ -3,6 +3,7 @@ package com.aesliva.real_time_stock_market_dashboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,12 @@ public class IndexService {
 
     private final List<String> indexSymbols = Arrays.asList("SPY", "QQQ", "VTI", "IWM", "VIG", "GLD", "AGG");
 
+    @PostConstruct
+    public void initializeDatabase() {
+        clearAllIndexes();
+        updateIndexes();
+    }
+
     public List<Index> getAllIndexes() {
         return indexRepository.findAll();
     }
@@ -27,5 +34,9 @@ public class IndexService {
                 .map(alphaVantageService::fetchIndexData)
                 .collect(Collectors.toList());
         indexRepository.saveAll(updatedIndexes);
+    }
+
+    public void clearAllIndexes() {
+        indexRepository.deleteAll();
     }
 }
