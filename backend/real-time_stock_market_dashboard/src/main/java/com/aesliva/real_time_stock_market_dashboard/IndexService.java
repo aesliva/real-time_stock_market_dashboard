@@ -30,10 +30,18 @@ public class IndexService {
     }
 
     public void updateIndexes() {
-        List<Index> updatedIndexes = indexSymbols.stream()
-                .map(alphaVantageService::fetchIndexData)
-                .collect(Collectors.toList());
-        indexRepository.saveAll(updatedIndexes);
+        indexSymbols.forEach(symbol -> {
+            Index updatedIndex = alphaVantageService.fetchIndexData(symbol);
+            indexRepository.findBySymbol(symbol)
+                    .ifPresentOrElse(
+                            existingIndex -> {
+                                existingIndex.setPrice(updatedIndex.getPrice());
+                                existingIndex.setChange(updatedIndex.getChange());
+                                existingIndex.setChangePercent(updatedIndex.getChangePercent());
+                                indexRepository.save(existingIndex);
+                            },
+                            () -> indexRepository.save(updatedIndex));
+        });
     }
 
     public void clearAllIndexes() {
