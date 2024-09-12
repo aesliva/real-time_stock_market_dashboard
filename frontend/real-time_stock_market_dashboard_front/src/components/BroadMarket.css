@@ -5,7 +5,28 @@
 .broad-market h1 {
   text-align: center;
   color: #333;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+
+.view-options {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.view-options button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  background-color: #f2f2f2;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.view-options button.active {
+  background-color: #415a77;
+  color: white;
 }
 
 .table-container {
@@ -47,4 +68,23 @@ tr:hover {
 
 .negative {
   color: red;
+}
+
+.chart-container {
+  width: 80%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.dropdown-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.dropdown-container select {
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }

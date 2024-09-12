@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,5 +47,9 @@ public class IndexService {
 
     public void clearAllIndexes() {
         indexRepository.deleteAll();
+    }
+
+    public List<Map<String, Object>> getETFData(String symbol) {
+        return alphaVantageService.fetchETFData(symbol);
     }
 }
