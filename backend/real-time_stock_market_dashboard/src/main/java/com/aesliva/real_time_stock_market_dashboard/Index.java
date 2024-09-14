@@ -20,6 +20,8 @@ public class Index {
     @Column(name = "price_change_percent")
     private BigDecimal changePercent;
 
+    private String name;
+
     public Index() {
     }
 
@@ -68,5 +70,13 @@ public class Index {
 
     public void setChangePercent(BigDecimal changePercent) {
         this.changePercent = changePercent;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

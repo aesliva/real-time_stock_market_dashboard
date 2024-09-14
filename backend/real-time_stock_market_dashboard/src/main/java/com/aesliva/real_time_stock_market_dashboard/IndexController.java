@@ -21,6 +21,11 @@ public class IndexController {
         return indexService.getAllIndexes();
     }
 
+    @GetMapping("/sectors")
+    public List<Index> getAllSectors() {
+        return indexService.getAllSectors();
+    }
+
     @GetMapping("/etf-data/{symbol}")
     public List<Map<String, Object>> getETFData(@PathVariable String symbol) {
         return indexService.getETFData(symbol);
