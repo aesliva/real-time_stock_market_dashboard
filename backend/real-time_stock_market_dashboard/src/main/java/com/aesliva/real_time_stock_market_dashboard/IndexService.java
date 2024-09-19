@@ -87,4 +87,12 @@ public class IndexService {
     public List<Map<String, Object>> getETFData(String symbol) {
         return alphaVantageService.fetchETFData(symbol);
     }
+
+    public Index getStockData(String symbol) {
+        return alphaVantageService.fetchIndexData(symbol);
+    }
+
+    public Map<String, Object> getDetailedStockData(String symbol) {
+        return alphaVantageService.fetchDetailedStockData(symbol);
+    }
 }

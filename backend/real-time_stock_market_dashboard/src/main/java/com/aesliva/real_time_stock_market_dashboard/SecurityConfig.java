@@ -15,7 +15,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/indexes", "/etf-data/**", "/sectors").permitAll()
+                        .requestMatchers("/indexes", "/etf-data/**", "/sectors", "/stock/**").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }
