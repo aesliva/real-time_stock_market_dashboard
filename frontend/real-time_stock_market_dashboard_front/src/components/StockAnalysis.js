@@ -29,7 +29,7 @@ const StockAnalysis = () => {
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Enter stock symbol (e.g., AAPL)"
+          placeholder="Enter stock symbol (e.g., JPM)"
         />
         <button type="submit">Search</button>
       </form>
