@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 
 @Service
 public class IndexService {
@@ -36,6 +39,12 @@ public class IndexService {
     public void initializeDatabase() {
         clearAllIndexes();
         updateIndexes();
+        for (String symbol : indexSymbols) {
+            updateHistoricalData(symbol);
+        }
+        for (String symbol : sectorSymbols.keySet()) {
+            updateHistoricalData(symbol);
+        }
     }
 
     public List<Index> getAllIndexes() {
@@ -94,5 +103,40 @@ public class IndexService {
 
     public Map<String, Object> getDetailedStockData(String symbol) {
         return alphaVantageService.fetchDetailedStockData(symbol);
+    }
+
+    public void updateHistoricalData(String symbol) {
+        Index index = indexRepository.findBySymbol(symbol)
+                .orElseThrow(() -> new RuntimeException("Index not found"));
+        List<HistoricalData> historicalData = alphaVantageService.fetchHistoricalData(symbol, index);
+        index.setHistoricalData(historicalData);
+        indexRepository.save(index);
+    }
+
+    public List<HistoricalData> getHistoricalData(String symbol, String range) {
+        Index index = indexRepository.findBySymbol(symbol)
+                .orElseThrow(() -> new RuntimeException("Index not found"));
+
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate;
+
+        switch (range) {
+            case "1y":
+                startDate = endDate.minusYears(1);
+                break;
+            case "5y":
+                startDate = endDate.minusYears(5);
+                break;
+            case "10y":
+                startDate = endDate.minusYears(10);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid range");
+        }
+
+        return index.getHistoricalData().stream()
+                .filter(data -> !data.getDate().isBefore(startDate) && !data.getDate().isAfter(endDate))
+                .sorted(Comparator.comparing(HistoricalData::getDate))
+                .collect(Collectors.toList());
     }
 }
