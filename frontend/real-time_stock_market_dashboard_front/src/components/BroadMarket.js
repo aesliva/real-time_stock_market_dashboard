@@ -16,7 +16,7 @@ const BroadMarket = () => {
   useEffect(() => {
     const fetchIndexes = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/indexes');
+        const response = await axios.get('https://your-backend-url.com/indexes');
         setIndexes(response.data);
       } catch (error) {
         console.error('Error fetching index data:', error);
@@ -69,7 +69,6 @@ const BroadMarket = () => {
       tooltip: {
         callbacks: {
           title: function(tooltipItems) {
-            // Format the price as currency and make it the title
             return new Intl.NumberFormat('en-US', { 
               style: 'currency', 
               currency: 'USD',
@@ -78,7 +77,6 @@ const BroadMarket = () => {
             }).format(tooltipItems[0].parsed.y);
           },
           label: function(context) {
-            // Format the date to show only YYYY-MM-DD
             return new Date(context.parsed.x).toISOString().split('T')[0];
           }
         },
@@ -159,5 +157,6 @@ const BroadMarket = () => {
     </div>
   );
 };
+
 
 export default BroadMarket;
