@@ -2,8 +2,6 @@ package com.aesliva.real_time_stock_market_dashboard;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 // JPA entity for stock index
 @Entity
@@ -23,9 +21,6 @@ public class Index {
     private BigDecimal changePercent;
 
     private String name;
-
-    @OneToMany(mappedBy = "index", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<HistoricalData> historicalData = new ArrayList<>();
 
     public Index() {
     }
@@ -83,13 +78,5 @@ public class Index {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<HistoricalData> getHistoricalData() {
-        return historicalData;
-    }
-
-    public void setHistoricalData(List<HistoricalData> historicalData) {
-        this.historicalData = historicalData;
     }
 }

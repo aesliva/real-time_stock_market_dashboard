@@ -166,34 +166,4 @@ public class AlphaVantageService {
             return String.format("$%,d", number);
         }
     }
-
-    public List<HistoricalData> fetchHistoricalData(String symbol, Index index) {
-        String url = String.format("%s?function=TIME_SERIES_DAILY&symbol=%s&outputsize=full&apikey=%s", apiUrl, symbol,
-                apiKey);
-        String response = restTemplate.getForObject(url, String.class);
-
-        try {
-            JsonNode root = objectMapper.readTree(response);
-            JsonNode timeSeries = root.get("Time Series (Daily)");
-            List<HistoricalData> historicalDataList = new ArrayList<>();
-
-            timeSeries.fields().forEachRemaining(entry -> {
-                String date = entry.getKey();
-                JsonNode values = entry.getValue();
-                HistoricalData historicalData = new HistoricalData(
-                        index,
-                        LocalDate.parse(date),
-                        new BigDecimal(values.get("1. open").asText()),
-                        new BigDecimal(values.get("2. high").asText()),
-                        new BigDecimal(values.get("3. low").asText()),
-                        new BigDecimal(values.get("4. close").asText()),
-                        Long.parseLong(values.get("5. volume").asText()));
-                historicalDataList.add(historicalData);
-            });
-
-            return historicalDataList;
-        } catch (Exception e) {
-            throw new RuntimeException("Error parsing AlphaVantage historical data response", e);
-        }
-    }
 }
