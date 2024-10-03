@@ -1,4 +1,4 @@
-package com.aesliva.real_time_stock_market_dashboard;
+package com.aesliva.stock_market_dashboard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
