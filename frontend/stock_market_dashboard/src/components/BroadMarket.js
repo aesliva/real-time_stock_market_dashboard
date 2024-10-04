@@ -16,7 +16,7 @@ const BroadMarket = () => {
   useEffect(() => {
     const fetchIndexes = async () => {
       try {
-        const response = await axios.get('http://ec2-54-193-36-129.us-west-1.compute.amazonaws.com:8080/indexes');
+        const response = await axios.get('https://0tnr4jx1b5.execute-api.us-west-1.amazonaws.com/prod/indexes');
         setIndexes(response.data);
       } catch (error) {
         console.error('Error fetching index data:', error);
@@ -31,7 +31,7 @@ const BroadMarket = () => {
   useEffect(() => {
     const fetchChartData = async () => {
       try {
-        const response = await axios.get(`http://ec2-54-193-36-129.us-west-1.compute.amazonaws.com:8080/etf-data/${selectedETF}`);
+        const response = await axios.get(`https://0tnr4jx1b5.execute-api.us-west-1.amazonaws.com/prod/etf-data/${selectedETF}`);
         const data = response.data;
         setChartData({
           labels: data.map(item => item.date),
