@@ -14,7 +14,8 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://ec2-54-193-36-129.us-west-1.compute.amazonaws.com:8080");
+        config.addAllowedOrigin("https://aesliva.github.io");
+        config.addAllowedOrigin("https://0tnr4jx1b5.execute-api.us-west-1.amazonaws.com/prod");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
