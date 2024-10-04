@@ -13,7 +13,7 @@ const StockAnalysis = () => {
     setStockData(null);
 
     try {
-      const response = await axios.get(`http://localhost:8080/stock/${searchTerm}`);
+      const response = await axios.get(`https://0tnr4jx1b5.execute-api.us-west-1.amazonaws.com/prod/stock/${searchTerm}`);
       setStockData(response.data);
     } catch (error) {
       setError('Error fetching stock data. Please try again.');
@@ -54,6 +54,6 @@ const StockAnalysis = () => {
       )}
     </div>
   );
-};
+}
 
 export default StockAnalysis;

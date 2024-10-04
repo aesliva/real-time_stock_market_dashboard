@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = { "https://aesliva.github.io", "https://0tnr4jx1b5.execute-api.us-west-1.amazonaws.com/prod" })
 public class IndexController {
 
     @Autowired

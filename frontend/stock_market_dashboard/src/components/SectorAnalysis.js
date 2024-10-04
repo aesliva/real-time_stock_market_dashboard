@@ -16,7 +16,7 @@ const SectorAnalysis = () => {
   useEffect(() => {
     const fetchSectors = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/sectors');
+        const response = await axios.get('https://0tnr4jx1b5.execute-api.us-west-1.amazonaws.com/prod/sectors');
         setSectors(response.data);
         if (response.data.length > 0 && !selectedSector) {
           setSelectedSector(response.data[0].symbol);
@@ -36,7 +36,7 @@ const SectorAnalysis = () => {
       if (!selectedSector) return;
 
       try {
-        const response = await axios.get(`http://localhost:8080/etf-data/${selectedSector}`);
+        const response = await axios.get(`https://0tnr4jx1b5.execute-api.us-west-1.amazonaws.com/prod/etf-data/${selectedSector}`);
         const data = response.data;
         setChartData({
           labels: data.map(item => item.date),
