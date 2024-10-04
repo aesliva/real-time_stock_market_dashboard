@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/real-time_stock_market_dashboard/static/css/main.cdad536b.css",
-    "main.js": "/real-time_stock_market_dashboard/static/js/main.b1b79501.js",
+    "main.js": "/real-time_stock_market_dashboard/static/js/main.d7802b48.js",
     "static/js/453.8f6ffd8e.chunk.js": "/real-time_stock_market_dashboard/static/js/453.8f6ffd8e.chunk.js",
     "index.html": "/real-time_stock_market_dashboard/index.html",
     "main.cdad536b.css.map": "/real-time_stock_market_dashboard/static/css/main.cdad536b.css.map",
-    "main.b1b79501.js.map": "/real-time_stock_market_dashboard/static/js/main.b1b79501.js.map",
+    "main.d7802b48.js.map": "/real-time_stock_market_dashboard/static/js/main.d7802b48.js.map",
     "453.8f6ffd8e.chunk.js.map": "/real-time_stock_market_dashboard/static/js/453.8f6ffd8e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.cdad536b.css",
-    "static/js/main.b1b79501.js"
+    "static/js/main.d7802b48.js"
   ]
 }
