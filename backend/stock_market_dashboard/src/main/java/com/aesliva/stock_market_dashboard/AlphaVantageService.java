@@ -8,14 +8,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
+/**
+ * Service for interacting with the Alpha Vantage API.
+ * 
+ * This service handles all external API calls to Alpha Vantage for stock market
+ * data.
+ * It includes methods for fetching real-time quotes, historical data, and
+ * company fundamentals.
+ * 
+ * @see <a href="https://www.alphavantage.co/documentation/">Alpha Vantage API
+ *      Docs</a>
+ */
 @Service
 public class AlphaVantageService {
 
@@ -31,6 +37,13 @@ public class AlphaVantageService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    /**
+     * Fetches current market data for a given index or ETF.
+     * 
+     * @param symbol The ticker symbol (e.g., "SPY", "QQQ")
+     * @return Index object containing current price and daily changes
+     * @throws RuntimeException if API call fails or response parsing fails
+     */
     public Index fetchIndexData(String symbol) {
         String url = String.format("%s?function=GLOBAL_QUOTE&symbol=%s&apikey=%s", apiUrl, symbol, apiKey);
         String response = restTemplate.getForObject(url, String.class);
@@ -48,6 +61,14 @@ public class AlphaVantageService {
         }
     }
 
+    /**
+     * Retrieves historical daily price data for an ETF.
+     * Currently limited to the most recent 100 trading days.
+     * 
+     * @param symbol The ETF symbol to fetch data for
+     * @return List of data points containing date and closing price
+     * @throws RuntimeException if data fetching or parsing fails
+     */
     public List<Map<String, Object>> fetchETFData(String symbol) {
         String url = String.format("%s?function=TIME_SERIES_DAILY&symbol=%s&apikey=%s", apiUrl, symbol, apiKey);
         String response = restTemplate.getForObject(url, String.class);
@@ -57,6 +78,7 @@ public class AlphaVantageService {
             JsonNode timeSeries = root.get("Time Series (Daily)");
             List<Map<String, Object>> dataPoints = new ArrayList<>();
 
+            // Parse the time series data into a list of data points
             timeSeries.fields().forEachRemaining(entry -> {
                 String date = entry.getKey();
                 JsonNode values = entry.getValue();
@@ -72,6 +94,21 @@ public class AlphaVantageService {
         }
     }
 
+    /**
+     * Fetches comprehensive company data including fundamentals and current price.
+     * 
+     * This method combines data from multiple Alpha Vantage endpoints:
+     * - Company Overview (fundamentals)
+     * - Global Quote (current price)
+     * 
+     * Known Issues:
+     * - Some fields may be null for new IPOs
+     * - Market cap can be delayed
+     * 
+     * @param symbol Company ticker symbol
+     * @return Map containing all available company data
+     * @throws RuntimeException if data cannot be fetched or parsed
+     */
     public Map<String, Object> fetchDetailedStockData(String symbol) {
         String url = String.format("%s?function=OVERVIEW&symbol=%s&apikey=%s", apiUrl, symbol, apiKey);
         String response = restTemplate.getForObject(url, String.class);
@@ -83,6 +120,8 @@ public class AlphaVantageService {
             NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
             currencyFormat.setMaximumFractionDigits(2);
             currencyFormat.setMinimumFractionDigits(2);
+
+            // TODO: Clean up, make more extensible
 
             // Basic information
             stockData.put("symbol", root.get("Symbol").asText());
@@ -120,6 +159,10 @@ public class AlphaVantageService {
         }
     }
 
+    /**
+     * Helper method to fetch current price quote for a symbol.
+     * Used internally by fetchDetailedStockData.
+     */
     private Map<String, Object> fetchQuoteData(String symbol) {
         String url = String.format("%s?function=GLOBAL_QUOTE&symbol=%s&apikey=%s", apiUrl, symbol, apiKey);
         String response = restTemplate.getForObject(url, String.class);
@@ -139,6 +182,12 @@ public class AlphaVantageService {
         }
     }
 
+    // Utility methods for formatting different types of numbers
+
+    /**
+     * Formats decimal numbers to 2 decimal places.
+     * Returns original string if parsing fails.
+     */
     private String formatDecimal(String value) {
         try {
             double number = Double.parseDouble(value);
@@ -148,6 +197,10 @@ public class AlphaVantageService {
         }
     }
 
+    /**
+     * Formats percentage values with % symbol.
+     * Handles decimal percentages (0.15 -> 15.00%).
+     */
     private String formatPercentage(String value) {
         try {
             double number = Double.parseDouble(value);
@@ -157,6 +210,10 @@ public class AlphaVantageService {
         }
     }
 
+    /**
+     * Formats large numbers into human-readable format with B/M suffix.
+     * Example: 1500000000 -> $1.50B
+     */
     private String formatLargeNumber(long number) {
         if (number >= 1_000_000_000) {
             return String.format("$%.2fB", number / 1_000_000_000.0);
@@ -166,4 +223,8 @@ public class AlphaVantageService {
             return String.format("$%,d", number);
         }
     }
+
+    // TODO: Add retry mechanism for failed API calls ?
+    // TODO: Implement proper rate limiting
+    // TODO: Add caching for frequently accessed data
 }
